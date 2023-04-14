@@ -1,0 +1,133 @@
+#include<iostream>
+#include<set>
+#include<map>
+#include<unordered_map>
+#include<unordered_set>
+#include<array>
+#include<string>
+#include<fstream>
+#include<sstream>
+#include<cstring>
+#include<algorithm>
+#include<climits>
+#include<cmath>
+#include<numeric>
+#include<vector>
+#include<stack>
+#include<cstddef>
+#include<utility>
+#include<queue>
+#include<deque>
+#include<iomanip>
+#include<random>
+#include<cstdbool>
+using namespace std;
+
+#define ll long long
+#define ull unsigned long long
+#define l long
+#define fl float
+#define fi first
+#define se second
+#define pb push_back
+#define PB pop_back()
+#define pf push_front
+#define PF pop_front()
+#define ins insert
+#define FOR(i,r,n) for(int i=r ; i<n; ++i)
+#define FORen(i,r,n) for(int i=r ; i<=n; ++i)
+#define FORn(i,r,n) for(int i=n-1; i>=r; --i)
+
+inline ll gcd(ll a, ll b) { if (b == 0) return a; else return gcd(b, a % b); }
+inline ll lcm(ll a, ll b) { return b / gcd(a, b) * a; }
+inline ll max(ll a, ll b) { ll max; return max = a > b ? a : b; }
+inline ll min(ll a, ll b) { ll min; return min = a < b ? a : b; }
+
+const int di1[8] = { -1,-1,-1,0,0,1,1,1 };
+const int dj1[8] = { -1,0,1,-1,1,-1,0,1 };
+const int di2[4] = { -1,0,1,0 };
+const int dj2[4] = { 0,-1,0,1 };
+
+class Examinee {
+	string ID, name;
+	double math, physic, chemist, bonus, total;
+public:
+	double countTotal();
+	bool checkPass();
+	void checkKV();
+	void checkTotal();
+	void nhap();
+	void xuat();
+};
+
+void Examinee::checkKV() {
+	string check = ID.substr(0, 3);
+	if (check == "KV1") {
+		cout << " 0.5 ";
+		bonus = 0.5;
+	}
+	else if (check == "KV2") {
+		cout << " 1 ";
+		bonus = 1.0;
+	}
+	else if (check == "KV3") {
+		cout << " 2.5 ";
+		bonus = 2.5;
+	}
+}
+
+double Examinee::countTotal() {
+	total = math * 2 + physic + chemist + bonus;
+	return total;
+}
+
+void Examinee::checkTotal() {
+	string s = to_string(math * 2 + physic + chemist);
+	size_t t = s.find('.');
+	string before_dot = s.substr(0, t);
+	cout << before_dot;
+	bool check_size = true;
+	string check = s.substr(t+1);
+	while (check.size() > 0 and check.back() == '0') {
+		check.PB;
+	}
+	if (check.size() > 0) check_size = true;
+	else if (check.size() == 0) check_size = false;
+
+	if (check_size == true) {
+		cout << "." << check;
+	}
+}
+
+bool Examinee::checkPass() {
+	if (countTotal() < 24) return false;
+	else if (countTotal() >= 24) return true;
+}
+
+void Examinee::nhap() {
+	getline(cin, ID);
+	getline(cin, name);
+	cin >> math >> physic >> chemist;
+}
+
+void Examinee::xuat() {
+	cout << ID << " " << name;
+	checkKV();
+	cout << math * 2 + physic + chemist;
+	if (checkPass() == true) cout << " " << "PASSED";
+	else cout << " " << "FAILED";
+}
+
+void solve() {
+	class Examinee a;
+	a.nhap();
+	a.xuat();
+}
+
+int main() {
+	//int test_case; cin >> test_case;
+	//FORen(i,1,test_case) {
+		solve();
+	//	cout << endl;
+	//}
+}
